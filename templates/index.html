@@ -1,65 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bus Arrival Information</title>
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>버스 도착 정보</title>
 </head>
 <body>
-    <div class="container">
-        <h1>Bus Arrival Information</h1>
-        <form method="post">
-            <label for="station_id">Enter Station ID:</label>
-            <input type="text" id="station_id" name="station_id" value="{{ station_id }}">
-            <button type="submit">Get Bus Info</button>
-        </form>
-        {% if bus_arrival_list %}
-            {% for bus in bus_arrival_list %}
-            <div class="bus-info">
-                <h2>Route: {{ bus.routeId }}</h2>
-                <div class="details">
-                    <div>
-                        <span>1st Bus Location</span>
-                        <strong>{{ bus.locationNo1 }}</strong>
-                    </div>
-                    <div>
-                        <span>1st Bus Arrival</span>
-                        <strong>{{ bus.predictTime1 }} min</strong>
-                    </div>
-                    <div>
-                        <span>Seats Available</span>
-                        <strong>{{ bus.remainSeatCnt1 }}</strong>
-                    </div>
-                    <div>
-                        <span>Low Plate</span>
-                        <strong>{{ bus.lowPlate1 }}</strong>
-                    </div>
-                </div>
-                <div class="details">
-                    <div>
-                        <span>2nd Bus Location</span>
-                        <strong>{{ bus.locationNo2 }}</strong>
-                    </div>
-                    <div>
-                        <span>2nd Bus Arrival</span>
-                        <strong>{{ bus.predictTime2 }} min</strong>
-                    </div>
-                    <div>
-                        <span>Seats Available</span>
-                        <strong>{{ bus.remainSeatCnt2 }}</strong>
-                    </div>
-                    <div>
-                        <span>Low Plate</span>
-                        <strong>{{ bus.lowPlate2 }}</strong>
-                    </div>
-                </div>
-            </div>
+    <h1>버스 도착 정보</h1>
+    <form method="post">
+        <label for="stationId">정류장 ID 입력:</label>
+        <input type="text" id="stationId" name="stationId">
+        <button type="submit">조회</button>
+    </form>
+    {% if bus_info %}
+        <h2>도착 정보</h2>
+        <ul>
+            {% for bus in bus_info %}
+                <li>{{ bus.route_number }}: {{ bus.location_no1 }}정류장({{ bus.predict_time1 }}분)
+                {% if bus.location_no2 %}
+                <br>{{ bus.location_no2 }}정류장({{ bus.predict_time2 }}분)
+                {% endif %}
+                </li>
             {% endfor %}
-        {% else %}
-            <p>No bus arrival information available.</p>
-        {% endif %}
-    </div>
+        </ul>
+    {% endif %}
 </body>
 </html>
